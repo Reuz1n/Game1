@@ -13,15 +13,21 @@ class Entity:
 
 class Player(Entity):
 
-    speed = 0,3
+    speed = 0
+
     player_icon = pygame.image.load("images\player.png")
 
     def __init__(self):
         super().__init__(352, 515, 3)
 
 
-    def play_now(self):
+    def move_player(self):
+        self.pos_x += self.speed
         window.blit(self.player_icon, (self.pos_x ,self.pos_y))
+
+    
+    def set_speed(self, value):
+        self.speed = value
 
 
 
@@ -35,16 +41,28 @@ pygame.display.set_icon(icon)
 background = pygame.image.load("images\wallpaper.jpg")
 
 
-player1 = Player()
-
-
+main_player = Player()
  
 
 while True:
 
-    player1.play_now()
+    main_player.move_player()
 
     for event in pygame.event.get():
+
         if event.type == pygame.QUIT: sys.exit()
+
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_LEFT:
+                main_player.set_speed(-0.3)
+            if event.key == pygame.K_RIGHT:
+                main_player.set_speed(0.3)
+
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_LEFT and main_player.speed == -0.3:
+                main_player.set_speed(0)
+            if event.key == pygame.K_RIGHT and main_player.speed == 0.3:
+                main_player.set_speed(0)
+
 
     pygame.display.update()
