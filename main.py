@@ -14,7 +14,7 @@ class Player(Entity):
   
   # Variables de clase
   speed = 0
-  player_icon = pygame.image.load("images\player.png")
+  player_icon = pygame.image.load("Game1\images\player.png")
 
   def __init__(self):
     super().__init__(352, 515)
@@ -25,12 +25,17 @@ class Player(Entity):
   
   def set_speed(self, value):
     self.speed = value
+  
+  def cast_bullet(self):
+    bullet = Bullet(self.pos_x, self.pos_y)
+    bullet.shoot()
+    
 
 
 class Enemy(Entity): 
 
   # Variables de clase
-  icon = pygame.image.load("images\enemy.png")
+  icon = pygame.image.load("Game1\images\enemy.png")
   enemies = []  
 
   def __init__(self, pos_x, pos_y, direction):
@@ -50,6 +55,19 @@ class Enemy(Entity):
             self.pos_y += 10
         window.blit(self.icon, (self.pos_x, self.pos_y))
 
+class Bullet(Entity):
+  
+  speed = 10
+  icon = pygame.image.load("Game1\images\\bullet.png")
+  
+  
+  def __init__(self, pos_x, pos_y):
+    super().__init__(pos_x, pos_y)
+    
+  def shoot(self):
+    self.pos_y -= self.speed
+    window.blit(self.icon, (self.pos_x ,self.pos_y))
+  
 
 # Inicio de juego
 
@@ -58,16 +76,17 @@ pygame.init()
 # Variables del juego
 window = pygame.display.set_mode((800, 600))
 pygame.display.set_caption("NAVECITAS LOCURA")
-icon = pygame.image.load("images\icon.png")
+icon = pygame.image.load("Game1\images\icon.png")
 pygame.display.set_icon(icon)
-background = pygame.image.load("images\wallpaper3.jpg")
+background = pygame.image.load("Game1\images\wallpaper3.jpg")
+FPS = 60 # Constante FPS
 
 # Variables globales 
 enemies = [] 
 enemies_max = 10
 cantity = 5
 main_player = Player()
-FPS = 60 # Constante FPS
+
 
 #Loop main
 while True:
@@ -91,9 +110,12 @@ while True:
   for event in pygame.event.get():
 
     if event.type == pygame.QUIT: sys.exit() # Cierra el juego
-
+    
     # Logica de movimiento
     if event.type == pygame.KEYDOWN:
+      #disparo y colision
+      if event.key == pygame.K_SPACE:
+        pass
       if event.key == pygame.K_LEFT:
         main_player.set_speed(-7)
       if event.key == pygame.K_RIGHT:
@@ -104,6 +126,8 @@ while True:
       if event.key == pygame.K_RIGHT and main_player.speed >= 7:
         main_player.set_speed(0)
   
+
+    
   # Evitar que salga de pantalla
   if main_player.pos_x <= 0:
     main_player.pos_x = 0
