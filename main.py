@@ -5,7 +5,7 @@ import sys
 class Entity:
 
 
-    def __init__(self, pos_x, pos_y, health):
+    def __init__(self, pos_x, pos_y, health=None):
         self.pos_x = pos_x
         self.pos_y = pos_y
         self.health = health
@@ -18,7 +18,7 @@ class Player(Entity):
     player_icon = pygame.image.load("Game1\images\player.png")
 
     def __init__(self):
-        super().__init__(352, 515, 3)
+        super().__init__(352, 515)
 
 
     def move_player(self):
@@ -32,14 +32,14 @@ class Player(Entity):
 
 class Enemy(Entity): 
     enemy_icon = pygame.image.load("Game1\images\enemy.png")
-    
+    enemies = []
     def __init__(self, pos_x, pos_y ):
         super().__init__(pos_x, pos_y)
     
     def move_enemy(self):
-        self.pos_x = random.randint(0,800)
-        self.pos_y = random.randint(500,600)
-        window.blit(self.pos_x, self.pos_y)
+        self.pos_x = random.randint(0, 800)
+        self.pos_y = random.randint(500, 600)
+        window.blit(self.enemy_icon, (self.pos_x, self.pos_y)) 
     
 
 
@@ -50,15 +50,24 @@ icon = pygame.image.load("Game1\images\icon.png")
 pygame.display.set_icon(icon)
 background = pygame.image.load("Game1\images\wallpaper.jpg")
 
-
+cantity = 5
 main_player = Player()
-#enemies = Enemy()
+enemies = Enemy(random.randint(0, 800), random.randint(500, 600))
 
 while True:
     window.blit(background, (0, 0))
     
     main_player.move_player()
-    #enemies.move_enemy()
+    
+    #crea enemigos por la cantidad en "Cantity"
+    for _ in range(cantity):  
+        enemy = Enemy(random.randint(0, 800), random.randint(500, 600))
+        Enemy.enemies.append(enemy)  
+
+   # mueve enemigos por cada uno
+    for enemy in Enemy.enemies:
+        enemy.move_enemy()  
+        window.blit(enemy.enemy_icon, (enemy.pos_x, enemy.pos_y))
     
     for event in pygame.event.get():
 
@@ -81,6 +90,6 @@ while True:
         main_player.pos_x = 0
     elif main_player.pos_x >= 736:
         main_player.pos_x = 736
-        
-        
+      
+
     pygame.display.update()
