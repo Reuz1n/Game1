@@ -60,7 +60,7 @@ window = pygame.display.set_mode((800, 600))
 pygame.display.set_caption("NAVECITAS LOCURA")
 icon = pygame.image.load("images\icon.png")
 pygame.display.set_icon(icon)
-background = pygame.image.load("images\wallpaper.jpg")
+background = pygame.image.load("images\wallpaper3.jpg")
 
 # Variables globales 
 enemies = [] 
@@ -96,13 +96,13 @@ while True:
     # Logica de movimiento
     if event.type == pygame.KEYDOWN:
       if event.key == pygame.K_LEFT:
-        main_player.set_speed(-5)
+        main_player.set_speed(-7)
       if event.key == pygame.K_RIGHT:
-        main_player.set_speed(5)
+        main_player.set_speed(7)
     if event.type == pygame.KEYUP:
-      if event.key == pygame.K_LEFT and main_player.speed == -5:
+      if event.key == pygame.K_LEFT and main_player.speed <= -7:
         main_player.set_speed(0)
-      if event.key == pygame.K_RIGHT and main_player.speed == 5:
+      if event.key == pygame.K_RIGHT and main_player.speed >= 7:
         main_player.set_speed(0)
   
   # Evitar que salga de pantalla
