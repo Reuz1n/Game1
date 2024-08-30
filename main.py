@@ -78,16 +78,15 @@ while True:
   # Reescribe el personaje
   main_player.move_player()
 
-  # Mueve y genera todos los enemigos
-  for enemy in enemies:
-    enemy.move_enemy()  
-    window.blit(enemy.icon, (enemy.pos_x, enemy.pos_y))  
-
   # Crea y guarda enemigos en la lista si es que no llego al maximo 
   if len(enemies) < enemies_max:
         enemy = Enemy(random.randint(0, 736), random.randint(50, 200), random.choice(["left", "right"]))
         enemies.append(enemy) 
 
+  # Mueve y genera todos los enemigos
+  for enemy in enemies:
+    enemy.move_enemy()  
+    window.blit(enemy.icon, (enemy.pos_x, enemy.pos_y))  
 
   for event in pygame.event.get():
 
@@ -114,4 +113,5 @@ while True:
   # Actualiza el juego
   pygame.display.flip()
 
+  # Sincroniza el loop a los FPS
   pygame.time.Clock().tick(FPS)
